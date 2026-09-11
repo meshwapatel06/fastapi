@@ -1,4 +1,4 @@
-name : FastAPI CI/CD
+name: FastAPI CI/CD
 
 on: 
   push:
@@ -6,17 +6,16 @@ on:
   pull_request:
     branches: [ main ]
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name : Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12.4'
           cache: 'pip'
@@ -26,7 +25,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -34,6 +32,4 @@ jobs:
     steps:
       - name: Trigger deployment to Render
         run: |
-          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
-
-  
+          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
